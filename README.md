@@ -7,6 +7,6 @@ This is a preconceived idea to help junior developers implement codes easily by 
 
 Features
 ---
-* Easily wire business validation classes
-* Easily wire classes that implements business rules
+* Validation framework that will easily wire business validation classes
+* Business Process framework that easily wire classes that implements business rules
 * Help production support developers to easily understand the code
