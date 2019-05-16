@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 
 import com.slug.framework.messages.CoreMessages;
 import com.slug.framework.messages.Message;
+import com.slug.framework.utilities.ExceptionLogger;
 import com.slug.framework.validator.AbstractValidator;
-import com.utility.core.framework.utilities.ExceptionLogger;
 import com.slug.framework.validator.Validator;
 
 /**
@@ -30,7 +30,6 @@ public abstract class AbstractService<T, R extends ServiceResponse<?>> {
 	
 	
 	/**
-	 * TODO: refactor this method to minimize the logic handling at controller level.
 	 * @param model
 	 * @return {@code ServiceResponse<V>}
 	 */
@@ -70,9 +69,9 @@ public abstract class AbstractService<T, R extends ServiceResponse<?>> {
 		List<Processor<T, R>> listOfProcessors = new ArrayList<>();
 		initProcessors(listOfProcessors);
 
-		if (listOfProcessors == null || listOfProcessors.isEmpty()) {
-			compendium.getServiceResponse().getMessages().add(CoreMessages.messagesMap.get("FRW-WRN-001"));
-			logger.warn(CoreMessages.messagesMap.get("FRW-WRN-001").getCompleteString());
+		if (listOfProcessors.isEmpty()) {
+			compendium.getServiceResponse().getMessages().add(CoreMessages.get("FRW-WRN-001"));
+			logger.warn(CoreMessages.get("FRW-WRN-001").getCompleteString());
 			return;
 		}
 
@@ -83,7 +82,7 @@ public abstract class AbstractService<T, R extends ServiceResponse<?>> {
 			}
 			
 		} catch (Exception e) {
-			compendium.getServiceResponse().getMessages().add(CoreMessages.messagesMap.get("APP-ERR-001"));
+			compendium.getServiceResponse().getMessages().add(CoreMessages.get("APP-ERR-001"));
 			ExceptionLogger.logException(logger, "executeProcessor", e);
 		}
 	}
@@ -103,9 +102,9 @@ public abstract class AbstractService<T, R extends ServiceResponse<?>> {
 		
 		initValidators(validators);
 		
-		if (validators == null || validators.isEmpty()) {
-			serviceResponse.getMessages().add(CoreMessages.messagesMap.get("FRW-WRN-002"));
-			logger.warn(CoreMessages.messagesMap.get("FRW-WRN-002").getCompleteString());
+		if (validators.isEmpty()) {
+			serviceResponse.getMessages().add(CoreMessages.get("FRW-WRN-002"));
+			logger.warn(CoreMessages.get("FRW-WRN-002").getCompleteString());
 			return Collections.emptyList();
 		}
 
@@ -126,9 +125,8 @@ public abstract class AbstractService<T, R extends ServiceResponse<?>> {
 	 * @return {@code true} - if list contains a message with level of {@code ERROR}.
 	 */
 	protected boolean hasValidationError(final List<Message> listOfMessages){
-	    return listOfMessages.stream()
-	    			.filter(o -> o.getLevel().equals(Message.ErrorMessageLevel.ERROR.value()))
-	    			.findFirst().isPresent();
+		return listOfMessages.stream()
+				.anyMatch(o -> o.getLevel().equals(Message.ErrorMessageLevel.ERROR.value()));
 	}
 	
 	

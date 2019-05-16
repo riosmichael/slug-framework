@@ -4,15 +4,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class contains the standard error messages for the CORE FRAMEWORK.
+ * This class contains the standard error messages for the Slug Framework.
  * 
  * @author Michael Rios
  *
  */
 public class CoreMessages {
 
-	public static final Map<String, Message> messagesMap;
+	private static final Map<String, Message> messagesMap;
 	
+	
+	/** Private constructor to avoid class initialization */
+	private CoreMessages() {}
+	
+	
+	/**
+	 * Convenience method to get a {@code Message} instance based on a given key. 
+	 * @param key
+	 * @return Message
+	 */
+	public static Message get(String key) {
+		return messagesMap.get(key);
+	}
+	
+	
+	/** Initialize Messages */
 	static {
 		messagesMap = new HashMap<>();
 		
@@ -34,7 +50,5 @@ public class CoreMessages {
 						"Caught application error, contact your system administrator.", 
 						Message.ErrorMessageLevel.ERROR.value()));
 	}
-	
-	
 	
 }

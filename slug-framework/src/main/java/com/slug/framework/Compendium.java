@@ -29,7 +29,7 @@ public class Compendium<R extends ServiceResponse<?>> {
 	/** Default Constructor */
 	public Compendium() {
 		this.serviceResponse = new ServiceResponse<>();
-		this.objects = new HashMap<String, Object>();
+		this.objects = new HashMap<>();
 	}
 
 	

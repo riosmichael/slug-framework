@@ -1,4 +1,4 @@
-package com.utility.core.framework.utilities;
+package com.slug.framework.utilities;
 
 import org.slf4j.Logger;
 
@@ -18,8 +18,8 @@ public class ExceptionLogger {
 	 * @param e - {@code Throwable}
 	 */
 	public static void logException(Logger logger, String methodName, Throwable e) {
-		
-		logger.error("Caught Exception on method : " + methodName + " " + e.getCause());
+		String format = "Caught Exception on method : {}";
+		logger.error(format, methodName, e.getCause());
 	}
 	
 }
